@@ -32,6 +32,8 @@ def login(url, name, password):
     # 获取cookie
     cookies = driver.get_cookies()
     # 把cookie写入文件
+    if not os.path.exists("cookie"):
+        os.mkdir("cookie")
     pickle.dump(cookies, open("./cookie/cookies.pkl", "wb"))
 
 
@@ -86,6 +88,7 @@ def send_barrage():
 
 
 if __name__ == "__main__":
+
 
     # 使用firefox登录
     # profile=webdriver.FirefoxProfile()
