@@ -25,6 +25,9 @@
 ----
 
 chrome驱动下载位置：http://chromedriver.chromium.org/downloads
+
 firefox驱动下载位置：https://github.com/mozilla/geckodriver/releases
+
 edge驱动下载位置：https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
+
 selenium使用参考：https://github.com/lmz2932/learnselenium
