@@ -106,7 +106,7 @@ if __name__ == "__main__":
         "PluginsAllowedForUrls": "https://www.douyu.com"
     }
     options.add_experimental_option("prefs", prefs)
-    driver = webdriver.Chrome(executable_path="./driver/linux/chromedriver", chrome_options=options)
+    driver = webdriver.Chrome(executable_path="./driver/win/chromedriver.exe", chrome_options=options)
 
     # 隐式等待是全局性的，只要用了driver.findxx没有第一时间找到元素，就会等待5s，当然一般都被用wait覆盖掉了
     driver.implicitly_wait(5)
