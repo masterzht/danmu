@@ -50,7 +50,7 @@ def login_with_cookie(url):
     # 如果cookie没有登录成功，重新用二维码登录
     try:
         WebDriverWait(driver, 10).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, "#header > div > div > div.o-login.fl")))
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "#js-header > div > div > div.Header-right > div.Header-login-wrap > div > a > span.UserInfo-nickname")))
     except:
         print("对不起，使用cookie登录失败，请重新扫描二维码登录")
         login(url)
