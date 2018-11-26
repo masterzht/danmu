@@ -38,7 +38,9 @@ def login(url, name, password):
 
 
 def login_with_cookie(url):
-    driver.get("https://www.douyu.com")
+    #driver.get("https://www.douyu.com")
+    driver.get(url)
+    driver.maximize_window()
     # 把cookie文件加载出来
     with open("./cookie/cookies.pkl", "rb") as cookiefile:
         cookies = pickle.load(cookiefile)
@@ -46,17 +48,17 @@ def login_with_cookie(url):
         print(cookie)
         driver.add_cookie(cookie)
     time.sleep(3)
-    driver.get(url)
+    driver.refresh()
     # 如果cookie没有登录成功，重新用二维码登录
     try:
         WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, "#js-header > div > div > div.Header-right > div.Header-login-wrap > div > a > span.UserInfo-nickname")))
     except:
         print("对不起，使用cookie登录失败，请重新扫描二维码登录")
-        login(url)
+        login(url," "," ")
 
     print("登录成功")
-    driver.maximize_window()
+    
     print(driver.title)
 
 
@@ -106,6 +108,7 @@ if __name__ == "__main__":
         "PluginsAllowedForUrls": "https://www.douyu.com"
     }
     options.add_experimental_option("prefs", prefs)
+    #options.add_argument('--ignore-certificate-errors')
     driver = webdriver.Chrome(executable_path="./driver/win/chromedriver.exe", chrome_options=options)
 
     # 隐式等待是全局性的，只要用了driver.findxx没有第一时间找到元素，就会等待5s，当然一般都被用wait覆盖掉了
