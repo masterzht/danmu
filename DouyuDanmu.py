@@ -17,14 +17,14 @@ def login(url, name, password):
     time.sleep(1)
 
     login_button = wait.until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR, "#js-header > div > div > div.Header-right > div.Header-login-wrap > div > a:nth-child(2)")))
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "#js-header > div > div > div.Header-right > div.Header-login-wrap")))
     # driver.find_element_by_link_text("登录").click()
     # 点击登录按钮
     login_button.click()
 
     # 这个时候我们用二维码登录，设置最多等待3分钟，如果登录那个区域是可见的，就登录成功
     WebDriverWait(driver, 180).until(
-        EC.visibility_of_element_located((By.CSS_SELECTOR, "#js-header > div > div > div.Header-right > div.Header-login-wrap > div > a > span.UserInfo-nickname")))
+        EC.visibility_of_element_located((By.CLASS_NAME, "UserInfo-link")))
 
     print("登录成功")
     # 保存cookie到cookies.pkl文件
@@ -49,10 +49,10 @@ def login_with_cookie(url):
         driver.add_cookie(cookie)
     time.sleep(3)
     driver.refresh()
-    # 如果cookie没有登录成功，重新用二维码登录
+    # 如果登录成功那个区域不可见的，说明cookie没有登录成功，重新用二维码登录
     try:
         WebDriverWait(driver, 10).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, "#js-header > div > div > div.Header-right > div.Header-login-wrap > div > a > span.UserInfo-nickname")))
+            EC.visibility_of_element_located((By.CLASS_NAME, "UserInfo-link")))
     except:
         print("对不起，使用cookie登录失败，请重新扫描二维码登录")
         login(url," "," ")
@@ -62,35 +62,61 @@ def login_with_cookie(url):
     print(driver.title)
 
 
-def send_barrage():
+def send_barrage(times):
     while (True):
         wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, "#js-player-asideMain > div > div.layout-Player-chat > div > div.ChatSpeak > div.ChatSend > textarea"))).send_keys("好听")
-
-        time.sleep(1)
         wait.until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "#js-player-asideMain > div > div.layout-Player-chat > div > div.ChatSpeak > div.ChatSend > div"))).click()
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "#js-player-asideMain > div > div.layout-Player-chat > div > div.ChatSpeak > div.ChatSend > div.ChatSend-button"))).click()
+        print("好听")    
+        time.sleep(1)    
         # 清空输入框信息
         wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, "#js-player-asideMain > div > div.layout-Player-chat > div > div.ChatSpeak > div.ChatSend > textarea"))).clear()
-        print("好听")
+        
 
         time.sleep(3)
         wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, "#js-player-asideMain > div > div.layout-Player-chat > div > div.ChatSpeak > div.ChatSend > textarea"))).send_keys("无敌了")
-        time.sleep(1)
         wait.until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "#js-player-asideMain > div > div.layout-Player-chat > div > div.ChatSpeak > div.ChatSend > div"))).click()
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "#js-player-asideMain > div > div.layout-Player-chat > div > div.ChatSpeak > div.ChatSend > div.ChatSend-button"))).click()
+        time.sleep(1)    
         # 清空输入框信息
         wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, "#js-player-asideMain > div > div.layout-Player-chat > div > div.ChatSpeak > div.ChatSend > textarea"))).clear()
         print("无敌了")
 
         time.sleep(3)
+        wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "#js-player-asideMain > div > div.layout-Player-chat > div > div.ChatSpeak > div.ChatSend > textarea"))).send_keys("全世界最好的提莫")
+        wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "#js-player-asideMain > div > div.layout-Player-chat > div > div.ChatSpeak > div.ChatSend > div.ChatSend-button"))).click()
+        time.sleep(1)    
+        # 清空输入框信息
+        wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "#js-player-asideMain > div > div.layout-Player-chat > div > div.ChatSpeak > div.ChatSend > textarea"))).clear()
+        print("全世界最好的提莫")
+
+        #倒计时一下
+        for x in range(times,-1,-1):
+            
+            mystr = "请再等待" + str(x) + "秒后系统会再次发送弹幕"
+            if x==0:
+                print(mystr)
+            else:
+                print(mystr,end = "")
+                print("\b" * (len(mystr)*2),end = "",flush=True)
+                time.sleep(1)
 
 
 if __name__ == "__main__":
 
+
+    output=input('您想每隔多少秒发送一套弹幕？？？（建议输入大一点，免得斗鱼服务器把你ban了,不确定的话直接回车，默认是60s）')
+    if output=='':
+        times=60
+    else:
+        times= int(output)   
 
     # 使用firefox登录
     # profile=webdriver.FirefoxProfile()
@@ -116,7 +142,7 @@ if __name__ == "__main__":
     # 显示等待是定向性的，最大等待时间10s,每次检测元素有没有生成的时间间隔300ms，过了最大等待时间抛出异常
     wait = WebDriverWait(driver, timeout=10, poll_frequency=300)
 
-    url = 'https://www.douyu.com/643037'
+    url = 'https://www.douyu.com/71017'
     name = ""
     password = ""
     if os.path.exists("./cookie/cookies.pkl"):
@@ -125,4 +151,4 @@ if __name__ == "__main__":
     else:
         print("当前目录下不存在斗鱼登录的cookie文件")
         login(url, name, password)
-    send_barrage()
+    send_barrage(times)
