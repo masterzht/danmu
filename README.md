@@ -24,7 +24,7 @@
         driver = webdriver.Chrome(executable_path="./driver/win/chromedriver", chrome_options=options)
 4. 在命令行里运行
 
-        python DouyuDanmu.py
+        python3 DouyuDanmu.py
 
 附
 ----
