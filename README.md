@@ -13,7 +13,7 @@
 
 1. 下载代码（Windows用户请在git-bash里执行）
 
-        git clone git://github.com/masterzht/Danmu.git
+        git clone https://github.com/masterzht/danmu.git
 
 2. 安装Python 3.x
 
